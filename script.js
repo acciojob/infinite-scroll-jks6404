@@ -1,37 +1,21 @@
 //your code here!
-// Get the list and create an array of initial list items
 const list = document.getElementById('infi-list');
-const initialListItems = Array.from(list.children);
 
-// Function to add new list items
-function addMoreListItems() {
-  // Number of list items to add
-  const numberOfItemsToAdd = 2;
+list.addEventListener('scroll', function() {
+  if (list.scrollTop + list.clientHeight >= list.scrollHeight) {
+    addItems();
+  }
+});
 
-  for (let i = 0; i < numberOfItemsToAdd; i++) {
+// Function to add more list items
+function addItems() {
+  // Number of new items to add
+  const itemsToAdd = 2;
+
+  // Generate new list items and append them to the list
+  for (let i = 1; i <= itemsToAdd; i++) {
     const newItem = document.createElement('li');
-    newItem.textContent = 'New Item';
+    newItem.textContent = 'Item ' + (list.childElementCount + i);
     list.appendChild(newItem);
   }
 }
-
-// Function to check if the user has reached the end of the list
-function checkEndOfList() {
-  const listRect = list.getBoundingClientRect();
-  const lastItemRect = list.lastElementChild.getBoundingClientRect();
-
-  if (lastItemRect.bottom <= listRect.bottom) {
-    addMoreListItems();
-  }
-}
-
-// Event listener for scrolling
-window.addEventListener('scroll', checkEndOfList);
-
-// Add initial list items
-initialListItems.forEach(item => {
-  list.appendChild(item);
-});
-
-// Add extra list items to fill the initial view
-addMoreListItems();
